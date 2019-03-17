@@ -1,0 +1,19 @@
+jar name: bo-hong-max-flow-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+file relative path: src/main/resources/example.max
+
+input file command: cat src/main/resources/example.max | java -jar target/bo-hong-max-flow-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+src/main/resources/solvers/dinic ../example.max
+
+LAUNCHING ETALON SOLVER:
+src/main/resources/solvers/dinic /home/ivan/Documents/Takmazian/max-flow/solver/src/main/resources/example.max | grep value | awk '{ print $3}'
+
+LAUNCHING MY SOLVER FOR MAX FLOW VALUE:
+cat src/main/resources/example.max | java -jar target/bo-hong-max-flow-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+
+
+cat problem.max | ./dimacs_to_dot.py problem.max -rstdin | dot -Tpng > problem.png
+
+cat generated.max | ./dimacs_to_dot.py generated.max -rstdin | dot -Tpng > problem.png

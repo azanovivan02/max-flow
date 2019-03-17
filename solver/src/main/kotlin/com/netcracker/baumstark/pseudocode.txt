@@ -1,0 +1,110 @@
+procedure PRSyncNondet()
+    parallel foreach v ∈ V {
+        d(v) := 0
+        e(v) := 0
+        v.addedExcess := 0
+        v.isDiscovered := 0
+    }
+
+    d(s) := n
+
+    parallel foreach (v, w) ∈ E {
+        f (v,w) := f(w,v) := 0
+    }
+
+    // initially saturate all source−adjacent edges
+    parallel foreach (s, v) ∈ E {
+        f (s ,v) := c(s ,v)
+        f (v,s) := −c(s,v)
+        e(v) := c(s ,v)
+    }
+
+    workSinceLastGR := INFINITY
+
+    while (true) {
+        // from hi pr: freq = 0.5, α = 6
+        if freq · workSinceLastGR > α · n + m: {
+            workSinceLastGR := 0
+            GlobalRelabel() // see Listing 1.2
+            // parallel array comprehension using map/filter
+            workingSet = [ v | v ← workingSet, d(v) < n ]
+        }
+
+        if workingSet = EMPTY {
+            break
+        }
+
+        parallel foreach v ∈ workingSet {
+            v. discoveredVertices := []
+            d’(v) := d(v)
+            e := e(v) // local copy
+            v.work := 0
+            while (e > 0) {
+                newLabel := n
+                skipped := 0
+                parallel foreach residual edge (v, w) ∈ E_f {
+                    if (e = 0) {
+                        break
+                    }
+
+                    admissible := (d’(v) = d(w) + 1)
+
+                    // is the edge shared between two active vertices?
+                    if e(w) {
+                        win := d(v) = d(w) + 1 or d(v) < d(w) − 1 or (d(v) = d(w) and v < w)
+                        if (admissible and not win) {
+                            skipped := 1
+                            continue // skip to next residual edge
+                        }
+                    }
+
+                    if (admissible and c_f(v, w) > 0) {
+                        ∆ := min(c f (v, w), e(v))
+                        // the following three updates do not need to be atomic
+                        f (v,w) += ∆
+                        f (w,v) −= ∆
+                        e −= ∆
+                        // atomic fetch−and−add
+                        w.addedExcess += ∆
+                        if w 6 = t and TestAndSet(w.isDiscovered)
+                        v. discoveredVertices .pushBack(w)
+                    }
+
+                    if (c_f (v, w) > 0 and d(w) ≥ d 0 (v)) {
+                        newLabel := min(newLabel, d(w) + 1)
+                    }
+                }
+
+                if (e = 0 or skipped) {
+                    break
+                }
+
+                d’(v) := newLabel // relabel
+                v.work += v.outDegree + β // from hi pr: β = 12
+
+                if (d’(v) = n) {
+                    break
+                }
+            }
+
+            v.addedExcess := e − e(v)
+            if e’(v) and TestAndSet(v.isDiscovered) {
+                v. discoveredVertices .pushBack(v)
+            }
+
+        parallel foreach v ∈ workingSet {
+            d(v) := d’(v)
+            e(v) += v.addedExcess
+            v.addedExcess := 0
+            v.isDiscovered := 0
+        }
+
+        workSinceLastGR += Sum([ v.work | v ← workingSet ])
+        workingSet := Concat([ v.discoveredVertices | v ← workingSet, d(v) < n ])
+
+        parallel foreach v ∈ workingSet {
+            e(v) += v.addedExcess
+            v.addedExcess := 0
+            v.isDiscovered := 0
+        }
+    }
