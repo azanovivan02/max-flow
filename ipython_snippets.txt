@@ -1,0 +1,4 @@
+for i in tqdm(range(52)):
+     graph = "metrics/working_set_graph_{}.dot".format(i)
+     image = "metrics/example_{}.png".format(i)
+     !cat $graph | dot -Tpng > $image
