@@ -10,19 +10,18 @@ class StartBarrierRunnable(
         val iterationNumber: AtomicInteger,
         val solutionFound: AtomicBoolean,
         val subsetsList: MutableList<Set<Int>>,
+        val graph: BaumGraph,
         val threadAmount: Int,
-        val vertices: List<BaumVertex>,
-        val sourceVertexId: Int,
-        val sinkVertexId: Int,
         val logger: Logger,
         val workingSetRecorder: WorkingSetRecorder
 ) : Runnable {
 
+    val vertices = graph.vertices
     val edges = vertices.flatMap { it.edges }
     val sourceVertexHeight = vertices.size.toLong()
 
-    val sourceVertex = vertices[sourceVertexId]
-    val sinkVertex = vertices[sinkVertexId]
+    val sourceVertex = vertices[graph.sourceVertexId]
+    val sinkVertex = vertices[graph.sinkVertexId]
 
     private var workingSet = createInitialWorkingSet()
 
@@ -39,7 +38,7 @@ class StartBarrierRunnable(
             updateSinkVertex()
         }
 
-        workingSetRecorder.record(iterationNumber.get(), workingSet, vertices)
+        workingSetRecorder.record(iterationNumber.get(), workingSet, graph)
 
 //        validatePreflowIfNeeded()
 

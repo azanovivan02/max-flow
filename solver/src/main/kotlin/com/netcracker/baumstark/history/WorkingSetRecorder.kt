@@ -1,12 +1,12 @@
 package com.netcracker.baumstark.history
 
-import com.netcracker.baumstark.BaumVertex
+import com.netcracker.baumstark.BaumGraph
 
 interface WorkingSetRecorder {
     fun record(
             iteration: Int,
             workingSet: Set<Int>,
-            vertices: List<BaumVertex>
+            graph: BaumGraph
     )
 
     fun save()

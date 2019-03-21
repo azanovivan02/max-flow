@@ -85,10 +85,8 @@ class BaumExecutor(
                 iterationNumber,
                 solutionFound,
                 subsetsList,
+                graph,
                 threadAmount,
-                graph.vertices,
-                graph.sourceVertexId,
-                graph.sinkVertexId,
                 logger,
                 workingSetRecorder
         )

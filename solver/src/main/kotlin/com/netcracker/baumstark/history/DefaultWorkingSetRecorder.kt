@@ -1,8 +1,6 @@
 package com.netcracker.baumstark.history
 
-import com.netcracker.baumstark.BaumGraph
-import com.netcracker.baumstark.BaumVertex
-import com.netcracker.baumstark.toCustomDotString
+import com.netcracker.baumstark.*
 import com.netcracker.util.customAssert
 import java.io.File
 
@@ -18,15 +16,18 @@ class DefaultWorkingSetRecorder(
 ) : WorkingSetRecorder {
 
     private val records = mutableListOf<WorkingSetRecord>()
+    private val graphRecords = mutableMapOf<Int, BaumGraphRecord>()
 
-    override fun record(iteration: Int, workingSet: Set<Int>, vertices: List<BaumVertex>) {
+    override fun record(iteration: Int, workingSet: Set<Int>, graph: BaumGraph) {
         val activeSet = workingSet
-                .map(vertices::get)
+                .map(graph.vertices::get)
                 .filter { it.excess.get() > 0 }
                 .map { it.id }
                 .toSet()
         val nonActiveSet = workingSet - activeSet
         records += WorkingSetRecord(iteration, activeSet, nonActiveSet)
+
+        graphRecords[iteration] = graph.createRecord()
     }
 
     override fun save() {
@@ -64,13 +65,16 @@ class DefaultWorkingSetRecorder(
     private fun saveGraph(record: WorkingSetRecord) {
         val (iteration, activeSet, nonActiveSet) = record
 
-        val dotString = graph.toCustomDotString { vertex ->
+        val vertexLabelSupplier = { vertex: BaumVertexRecord ->
             when (vertex.id) {
                 in activeSet -> "style=filled fillcolor=\"green\""
                 in nonActiveSet -> "style=filled fillcolor=\"yellow\""
                 else -> ""
             }
         }
+        val graphRecord = graphRecords[iteration]
+                ?: throw IllegalStateException("Graph record not found for iteration: $iteration")
+        val dotString = graphRecord.toCustomDotString(vertexLabelSupplier)
 
         val filePath = "${graphFilePathPrefix}_$iteration.dot"
         val file = File(filePath)

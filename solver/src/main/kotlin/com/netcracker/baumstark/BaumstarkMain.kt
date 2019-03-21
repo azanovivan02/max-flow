@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
     try {
         val maxFlowValue = executor.findMaxFlowValue()
         println(maxFlowValue)
-        println(baumGraph.toDotString(DrawingMode.SIMPLE))
+        println(baumGraph.createRecord().toDotString(DrawingMode.SIMPLE))
     } catch (e: Exception) {
         println("Exception occured")
         e.printStackTrace(System.out)

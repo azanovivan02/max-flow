@@ -4,13 +4,12 @@ class BaumGraph(
         val vertices: List<BaumVertex>,
         val sourceVertexId: Int = 0,
         val sinkVertexId: Int = vertices.size - 1) {
+
     val edges = vertices.flatMap { it.edges }
     val sourceVertexHeight = vertices.size.toLong()
 
     val sourceVertex = vertices[sourceVertexId]
     val sinkVertex = vertices[sinkVertexId]
-
-    fun isSourceOrSink(currentVertexId: Int) = currentVertexId == sourceVertexId || currentVertexId == sinkVertexId
 
     fun init() {
         initVertices()

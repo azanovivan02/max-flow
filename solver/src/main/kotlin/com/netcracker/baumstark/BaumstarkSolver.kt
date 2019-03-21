@@ -26,7 +26,7 @@ class BaumstarkSolver(
         val maxFlow = executor.findMaxFlowValue()
         return when (outputMode) {
             FLOW_GRAPH -> baumGraph
-                    .toDotString(drawingMode)
+                    .createRecord().toDotString(drawingMode)
                     .addMaxFlowPrefix(maxFlow)
             MAX_FLOW_VALUE -> maxFlow.toString()
         }
