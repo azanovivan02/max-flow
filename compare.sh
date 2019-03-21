@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
+echo "=== Compare ==="
+
 thread_amount="$1"
 problem_path="$2"
 
-echo "thread amount: $thread_amount"
+echo "Threads: $thread_amount"
+echo "Using provided problem path: $problem_path"
 
 solver_path="solver/src/main/resources/solvers/dinic"
 jar_path="solver/target/bo-hong-max-flow-1.0-SNAPSHOT-jar-with-dependencies.jar"
