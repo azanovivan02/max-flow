@@ -18,7 +18,7 @@ import static java.lang.System.getProperty;
 
 @Threads(1)
 @Fork(value = 1)
-public class MyBenchmark {
+public class MaxFlowBenchmark {
 
     private static final String path = "/home/ivan/Documents/Takmazian/max-flow/solver/src/main/resources/generated-tasks/generated.max";
 
@@ -61,8 +61,8 @@ public class MyBenchmark {
         return property;
     }
 
-    @Measurement(iterations = 3)
-    @Warmup(iterations = 3)
+    @Measurement(iterations = 5)
+    @Warmup(iterations = 5)
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     public void testMethod(Blackhole blackhole, MyState state) {
