@@ -18,10 +18,12 @@ class BaumstarkSolver(
             drawingMode: DrawingMode
     ): String {
         val baumGraph = createBaumGraph(originalGraph)
-        baumGraph.logger = logger
-        baumGraph.threadAmount = threadAmount
-
-        val maxFlow = baumGraph.findMaxFlowValue()
+        val executor = BaumExecutor(
+                graph = baumGraph,
+                logger = logger,
+                threadAmount = threadAmount
+        )
+        val maxFlow = executor.findMaxFlowValue()
         return when (outputMode) {
             FLOW_GRAPH -> baumGraph
                     .toDotString(drawingMode)

@@ -14,13 +14,12 @@ class LongRunnable(
         val startBarrier: CyclicBarrier,
         val middleBarrier: CyclicBarrier,
         val vertices: List<BaumVertex>,
-        val sinkVertexId: Int = vertices.size - 1,
+        val sinkVertexId: Int,
         var logger: Logger
 ) : Runnable {
 
-    val sourceVertexHeight = vertices.size.toLong()
-
-    val localHeights = MutableList<Long?>(vertices.size) { null }
+    private val sourceVertexHeight = vertices.size.toLong()
+    private val localHeights = MutableList<Long?>(vertices.size) { null }
 
     override fun run() {
         while (true) {
@@ -68,10 +67,8 @@ class LongRunnable(
                 }
 
                 if (edgeIsAdmissable && edge.remainingCapacity > 0) {
-                    //todo try to read from global value
-//                    val delta = min(edge.remainingCapacity, currentVertex.excess.get())
                     val delta = min(edge.remainingCapacity, localExcess)
-                    logger.debug("- Pushing $delta from ${edge.startVertexId} to ${edge.endVertexId}")
+                    logger.debug { "- Pushing $delta from ${edge.startVertexId} to ${edge.endVertexId}" }
                     edge.flow.getAndAdd(delta)
 
                     val reverseEdge = edge.getReverseEdge(vertices)
@@ -101,16 +98,7 @@ class LongRunnable(
             }
         }
 
-        val oldAddedExcess = currentVertex.addedExcess.get()
         val addedExcess = localExcess - currentVertex.excess.get()
-//        customAssert(oldAddedExcess == 0L) {
-//            "Erasing old added excess! " +
-//                    "Vertex: ${currentVertex.id}, " +
-//                    "old value: $oldAddedExcess, " +
-//                    "new value: $addedExcess"
-//        }
-
-//        currentVertex.addedExcess.set(addedExcess)
         currentVertex.addedExcess.addAndGet(addedExcess)
 
         if (currentVertex.excess.get() > 0L && testAndSet(currentVertex.isDiscovered)) {
@@ -120,19 +108,18 @@ class LongRunnable(
         localHeights[currentVertexId] = localHeight
     }
 
-    fun update(currentVertexId: Int) {
+    private fun update(currentVertexId: Int) {
         val currentVertex = vertices[currentVertexId]
         val localHeight = localHeights[currentVertexId] ?: throw IllegalStateException()
         currentVertex.updateWithHeight(localHeight)
         logger.debug(" - ${currentVertex.toDetailedString()}")
     }
 
-    private fun testAndSet(condition: AtomicBoolean): Boolean {
-        if (condition.get()) {
-            return false
-        } else {
-            condition.set(true)
-            return true
-        }
-    }
+    private fun testAndSet(condition: AtomicBoolean) =
+            if (condition.get()) {
+                false
+            } else {
+                condition.set(true)
+                true
+            }
 }

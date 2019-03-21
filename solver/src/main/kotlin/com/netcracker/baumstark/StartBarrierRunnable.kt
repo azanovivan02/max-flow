@@ -5,7 +5,6 @@ import com.netcracker.util.Logger
 import com.netcracker.util.splitIntoEvenParts
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.atomic.AtomicLong
 
 class StartBarrierRunnable(
         val iterationNumber: AtomicInteger,
@@ -40,7 +39,7 @@ class StartBarrierRunnable(
             updateSinkVertex()
         }
 
-        workingSetRecorder.record(iterationNumber.get(), workingSet)
+        workingSetRecorder.record(iterationNumber.get(), workingSet, vertices)
 
 //        validatePreflowIfNeeded()
 

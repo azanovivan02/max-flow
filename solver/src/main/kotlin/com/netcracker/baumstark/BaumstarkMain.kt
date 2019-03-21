@@ -11,8 +11,9 @@ val path = "/home/ivan/Documents/Takmazian/max-flow/solver/src/main/resources/ge
 fun main(args: Array<String>) {
     val originalGraph = readGraphFromDimacsFile(path)
     val baumGraph = createBaumGraph(originalGraph)
+    val executor = BaumExecutor(baumGraph)
     try {
-        val maxFlowValue = baumGraph.findMaxFlowValue()
+        val maxFlowValue = executor.findMaxFlowValue()
         println(maxFlowValue)
         println(baumGraph.toDotString(DrawingMode.SIMPLE))
     } catch (e: Exception) {

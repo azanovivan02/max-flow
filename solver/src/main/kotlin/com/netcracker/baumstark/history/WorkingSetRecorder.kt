@@ -1,13 +1,14 @@
 package com.netcracker.baumstark.history
 
+import com.netcracker.baumstark.BaumVertex
+
 interface WorkingSetRecorder {
-    fun record(iteration: Int, workingSet: Collection<Int>)
+    fun record(
+            iteration: Int,
+            workingSet: Set<Int>,
+            vertices: List<BaumVertex>
+    )
 
     fun save()
 }
-
-data class WorkingSetRecord(
-        val iteration: Int,
-        val workingSet: Collection<Int>
-)
 

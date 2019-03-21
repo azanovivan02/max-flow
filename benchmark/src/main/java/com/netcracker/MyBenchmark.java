@@ -1,5 +1,6 @@
 package com.netcracker;
 
+import com.netcracker.baumstark.BaumExecutor;
 import com.netcracker.baumstark.BaumGraph;
 import com.netcracker.baumstark.history.DummyWorkingSetRecorder;
 import com.netcracker.util.*;
@@ -24,30 +25,26 @@ public class MyBenchmark {
     private static final String THREAD_AMOUNT_PROPERTY_KEY = "baumstark.threadAmount";
     private static final String CORRECT_ANSWER_PROPERTY_KEY = "baumstark.correctAnswer";
 
-//    private static final int = Integer.parseInt(System.getProperty(CORREC))
-
     @State(Scope.Thread)
     public static class MyState {
-        private BaumGraph baumGraph;
+        private BaumExecutor executor;
 
         @Setup(Level.Trial)
         public void doSetup() {
             final Graph<String, DefaultWeightedEdge> originalGraph = readGraphFromDimacsFile(path);
-            baumGraph = createBaumGraph(originalGraph);
+            final BaumGraph baumGraph = createBaumGraph(originalGraph);
 
             final StandardOutputLogger logger = new StandardOutputLogger(false, DEBUG, ORIGINAL);
-            baumGraph.setLogger(logger);
             final DummyWorkingSetRecorder recorder = new DummyWorkingSetRecorder();
-            baumGraph.setWorkingSetRecorder(recorder);
-            baumGraph.setEnablePreflowValidation(false);
-
             final int threadAmount = parseInt(getPropertyOrException(THREAD_AMOUNT_PROPERTY_KEY));
-            baumGraph.setThreadAmount(threadAmount);
+            final boolean enablePreflowValidation = false;
+
+            executor = new BaumExecutor(baumGraph, logger, threadAmount, enablePreflowValidation, recorder);
         }
 
         @Setup(Level.Invocation)
         public void doSetupInvocation() {
-            baumGraph.init();
+            executor.getGraph().init();
         }
 
         @TearDown(Level.Trial)
@@ -69,7 +66,7 @@ public class MyBenchmark {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     public void testMethod(Blackhole blackhole, MyState state) {
-        final long maxFlowValue = state.baumGraph.findMaxFlowValue(true);
+        final long maxFlowValue = state.executor.findMaxFlowValue(true);
         blackhole.consume(maxFlowValue);
     }
 }

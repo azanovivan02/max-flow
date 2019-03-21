@@ -20,5 +20,4 @@ else
      echo "Using provided generated file path: $generated_file_path"
 fi
 
-
 $generator_path 3 ${width} ${rows} 100 ${generated_file_path}

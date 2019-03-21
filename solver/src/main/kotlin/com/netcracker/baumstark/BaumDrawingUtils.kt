@@ -21,10 +21,14 @@ fun BaumGraph.toDotString(mode: DrawingMode = DrawingMode.SIMPLE) : String {
         }
         else -> vertices.joinToString(NEW_LINE) { it.getLineForSimpleCase() }
     }
-    val edgeString = vertices
-            .flatMap { it.edges }
-            .filter { !it.dummy }
-            .joinToString(NEW_LINE) { it.getLineForSimpleCase(mode) }
+    val edgeString = createEdgeString()
+    return "strict digraph G {\n$vertexString\n$edgeString\n}"
+}
+
+
+fun BaumGraph.toCustomDotString(vertexLabelSupplier: (BaumVertex) -> String) : String {
+    val vertexString = vertices.joinToString(NEW_LINE) { it.getLineForCustomCase(vertexLabelSupplier) }
+    val edgeString = createEdgeString()
     return "strict digraph G {\n$vertexString\n$edgeString\n}"
 }
 
@@ -45,6 +49,11 @@ private fun BaumGraph.computeMinMaxExcesses(): Pair<Long, Long> {
 }
 
 private fun BaumVertex.getLineForSimpleCase() = "  $id [ label=\"${getLabel()}\" ];"
+
+private fun BaumVertex.getLineForCustomCase(vertexLabelSupplier: (BaumVertex) -> String): String {
+    val customLabel = vertexLabelSupplier(this)
+    return "  $id [ label=\"${getLabel()}\" $customLabel ];"
+}
 
 private fun BaumVertex.getLineForHeightCase(
         minHeight: Long,
@@ -73,6 +82,14 @@ private fun BaumVertex.getLineForExcessCase(
 
 private fun BaumVertex.getLabel() = "$id: ${height.get()}"
 
-private fun BaumEdge.getLineForSimpleCase(mode: DrawingMode) = "  $startVertexId -> $endVertexId [ label=\"${getLabel()}\" ];"
-
 private fun BaumEdge.getLabel() = "$flow/$maxCapacity"
+
+private fun BaumGraph.createEdgeString(): String {
+    val edgeString = vertices
+            .flatMap { it.edges }
+            .filter { !it.dummy }
+            .joinToString(NEW_LINE) { it.getLineForSimpleCase() }
+    return edgeString
+}
+
+private fun BaumEdge.getLineForSimpleCase() = "  $startVertexId -> $endVertexId [ label=\"${getLabel()}\" ];"
