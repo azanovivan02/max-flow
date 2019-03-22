@@ -1,0 +1,15 @@
+Conducted on devapp090
+
+=== 1 ==================
+
+400 Rows, 10 columns, capacities in range [0, 100]
+
+1       avgt    5  18.979 ± 4.570   s/op
+4       avgt    5  25.080 ± 2.089   s/op
+
+=== 2 ==================
+
+10 Rows, 400 columns, capacities in range [0, 100]
+./generate.sh 400 10
+1       avgt    5  37.944 ± 4.288   s/op
+4       avgt    5  98.827 ± 88.308   s/op

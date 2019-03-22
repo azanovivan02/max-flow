@@ -20,7 +20,8 @@ import static java.lang.System.getProperty;
 @Fork(value = 1)
 public class MaxFlowBenchmark {
 
-    private static final String path = "/home/ivan/Documents/Takmazian/max-flow/solver/src/main/resources/generated-tasks/generated.max";
+    private static final String PROBLEM_PATH_PROPERTY_KEY = "baumstark.problemPath";
+    private static final String PROBLEM_PATH_DEFAULT = "/home/ivan/Documents/Takmazian/max-flow/solver/src/main/resources/generated-tasks/generated.max";
 
     private static final String THREAD_AMOUNT_PROPERTY_KEY = "baumstark.threadAmount";
     private static final String CORRECT_ANSWER_PROPERTY_KEY = "baumstark.correctAnswer";
@@ -31,12 +32,14 @@ public class MaxFlowBenchmark {
 
         @Setup(Level.Trial)
         public void doSetup() {
-            final Graph<String, DefaultWeightedEdge> originalGraph = readGraphFromDimacsFile(path);
+            String problemPath = getPropertyOrDefault(PROBLEM_PATH_PROPERTY_KEY, PROBLEM_PATH_DEFAULT);
+            final int threadAmount = parseInt(getPropertyOrException(THREAD_AMOUNT_PROPERTY_KEY));
+
+            final Graph<String, DefaultWeightedEdge> originalGraph = readGraphFromDimacsFile(problemPath);
             final BaumGraph baumGraph = createBaumGraph(originalGraph);
 
             final StandardOutputLogger logger = new StandardOutputLogger(false, DEBUG, ORIGINAL);
             final DummyWorkingSetRecorder recorder = new DummyWorkingSetRecorder();
-            final int threadAmount = parseInt(getPropertyOrException(THREAD_AMOUNT_PROPERTY_KEY));
             final boolean enablePreflowValidation = false;
 
             executor = new BaumExecutor(baumGraph, logger, threadAmount, enablePreflowValidation, recorder);
@@ -59,6 +62,15 @@ public class MaxFlowBenchmark {
             throw new IllegalStateException("Property is expected but was not found: " + propertyKey);
         }
         return property;
+    }
+
+    private static String getPropertyOrDefault(String propertyKey, String default_value) {
+        final String property = getProperty(propertyKey);
+        if (property == null) {
+            return default_value;
+        } else {
+            return property;
+        }
     }
 
     @Measurement(iterations = 5)
