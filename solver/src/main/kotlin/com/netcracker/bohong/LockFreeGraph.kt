@@ -1,5 +1,6 @@
 package com.netcracker.bohong
 
+import com.netcracker.bohong.checkers.BaseTerminationChecker
 import com.netcracker.bohong.checkers.SnapshotTerminationChecker
 import com.netcracker.bohong.checkers.processDataFromSnapshotTerminationChecker
 import com.netcracker.bohong.processors.VertexProcessor
@@ -42,9 +43,9 @@ class LockFreeGraph(
         init(sourceVertexId)
         val solutionComplete = AtomicBoolean(false)
 
-//        val terminationChecker = BaseTerminationChecker(this, solutionComplete)
+        val terminationChecker = BaseTerminationChecker(this, solutionComplete)
 //        val terminationChecker = HistoricalTerminationChecker(this, solutionComplete)
-        val terminationChecker = SnapshotTerminationChecker(this, solutionComplete)
+//        val terminationChecker = SnapshotTerminationChecker(this, solutionComplete)
 
         val terminationCheckBarrier = CyclicBarrier(
                 threadAmount,
@@ -73,7 +74,7 @@ class LockFreeGraph(
 
 //        processHistoryRecordsFromProcessors(vertexProcessingRunnables)
 //        processHistoryRecordsFromTerminationChecker(terminationChecker)
-        processDataFromSnapshotTerminationChecker(terminationChecker)
+//        processDataFromSnapshotTerminationChecker(terminationChecker)
 
         return vertices[sinkVertexId]
                 .excess

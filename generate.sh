@@ -5,8 +5,8 @@ echo "=== Generate ==="
 generator_path="solver/src/main/resources/generators/washington"
 default_generated_file_path="/home/ivan/Documents/Takmazian/max-flow/solver/src/main/resources/generated-tasks/generated.max"
 
-rows="$1"
-width="$2"
+width="$1"
+rows="$2"
 
 echo "Rows: $rows"
 echo "Width: $width"
