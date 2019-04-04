@@ -30,6 +30,7 @@ private fun parseCommandLineArguments(args: Array<String>): Arguments {
         1 -> Arguments(MAX_FLOW_VALUE, SIMPLE, threadAmount)
         2 -> when (args.last()) {
             "value" -> Arguments(MAX_FLOW_VALUE, SIMPLE, threadAmount)
+            "actions" -> Arguments(ELEMENTARY_ACTIONS, SIMPLE, threadAmount)
             "simple" -> Arguments(FLOW_GRAPH, SIMPLE, threadAmount)
             "excess" -> Arguments(FLOW_GRAPH, EXCESS, threadAmount)
             "height" -> Arguments(FLOW_GRAPH, HEIGHT, threadAmount)

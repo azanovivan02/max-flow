@@ -2,6 +2,7 @@ package com.netcracker;
 
 import com.netcracker.baumstark.BaumExecutor;
 import com.netcracker.baumstark.BaumGraph;
+import com.netcracker.baumstark.history.actions.DefaultActionRecorderAnalyzer;
 import com.netcracker.baumstark.history.workingset.DummyWorkingSetRecorder;
 import com.netcracker.util.*;
 import org.jgrapht.Graph;
@@ -18,7 +19,7 @@ import static java.lang.System.getProperty;
 
 @Threads(1)
 @Fork(value = 1)
-public class MaxFlowBenchmark {
+public class MaxFlowBenchmarkBaumstark {
 
     private static final String PROBLEM_PATH_PROPERTY_KEY = "baumstark.problemPath";
     private static final String PROBLEM_PATH_DEFAULT = "/home/ivan/Documents/Takmazian/max-flow/solver/src/main/resources/generated-tasks/generated.max";
@@ -78,7 +79,7 @@ public class MaxFlowBenchmark {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     public void testMethod(Blackhole blackhole, MyState state) {
-        final long maxFlowValue = state.executor.findMaxFlowValue(true);
+        final long maxFlowValue = state.executor.findMaxFlowValue(true, new DefaultActionRecorderAnalyzer());
         blackhole.consume(maxFlowValue);
     }
 }

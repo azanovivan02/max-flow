@@ -1,7 +1,6 @@
-package com.netcracker
+package com.netcracker.bohong
 
 import com.netcracker.util.assertIsValid
-import com.netcracker.bohong.createLockFreeGraph
 import com.netcracker.util.readGraphFromDimacsFile
 
 //val path = "/home/ivan/Documents/Takmazian/flow/example.max"
