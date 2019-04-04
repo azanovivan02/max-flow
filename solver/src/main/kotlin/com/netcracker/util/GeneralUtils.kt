@@ -13,7 +13,7 @@ fun <T> List<T>.splitIntoParts(partsAmount: Int): List<List<T>> {
     val partSizesString = parts
             .map { it.size }
             .joinToString(", ")
-    println("Split $size elements into parts: [$partSizesString]")
+//    println("Split $size elements into parts: [$partSizesString]")
     return parts
 }
 
