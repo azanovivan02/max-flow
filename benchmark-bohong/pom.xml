@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.netcracker</groupId>
-    <artifactId>jmh-playground</artifactId>
+    <artifactId>benchmark-bohong</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jmh.version>1.21</jmh.version>
         <javac.target>1.8</javac.target>
-        <uberjar.name>benchmarks-baumstark</uberjar.name>
+        <uberjar.name>benchmarks-bohong</uberjar.name>
         <!--<kotlin.compiler.incremental>true</kotlin.compiler.incremental>-->
     </properties>
 

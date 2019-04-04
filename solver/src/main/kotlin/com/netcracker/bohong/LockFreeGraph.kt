@@ -19,8 +19,20 @@ class LockFreeGraph(
 
     val edges = vertices.flatMap { it.edges }
 
-    fun findMaxFlow(): Long {
-        init(sourceVertexId)
+    fun init(sourceVertexId: Int) {
+        resetAllVertices()
+        resetFlowInAllEdges()
+
+        val sourceVertex = vertices[sourceVertexId]
+        setSourceVertexHeight(sourceVertex)
+        saturateEdgesFromSource(sourceVertex)
+    }
+
+    fun findMaxFlow(skipInit: Boolean = false): Long {
+        if(!skipInit) {
+            init(sourceVertexId)
+        }
+
         var iterationNumber = 0
         while (middleVerticesHaveExcess()) {
             for (iteration in 0 until iterationsPerCheck) {
@@ -38,7 +50,8 @@ class LockFreeGraph(
     }
 
     fun findMaxFlowParallel(
-            threadAmount: Int = 4
+            threadAmount: Int = 4,
+            skipInit: Boolean = false
     ): Long {
         init(sourceVertexId)
         val solutionComplete = AtomicBoolean(false)
@@ -91,15 +104,6 @@ class LockFreeGraph(
             }
         }
         return false
-    }
-
-    fun init(sourceVertexId: Int) {
-        resetAllVertices()
-        resetFlowInAllEdges()
-
-        val sourceVertex = vertices[sourceVertexId]
-        setSourceVertexHeight(sourceVertex)
-        saturateEdgesFromSource(sourceVertex)
     }
 
     fun resetAllVertices() {

@@ -12,6 +12,7 @@
     <modules>
         <module>solver</module>
         <module>benchmark</module>
+        <module>benchmark-bohong</module>
     </modules>
 
 </project>
