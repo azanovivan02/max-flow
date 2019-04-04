@@ -34,7 +34,7 @@ class StartBarrierRunnable(
                 return
             }
 
-            updateVerticesInNewWorkingSet(workingSet)
+//            updateVerticesInNewWorkingSet(workingSet)
             updateSinkVertex()
         }
 
@@ -55,11 +55,11 @@ class StartBarrierRunnable(
         iterationNumber.incrementAndGet()
     }
 
-    private fun updateVerticesInNewWorkingSet(workingSet: Set<Int>) {
-        workingSet
-                .map(vertices::get)
-                .forEach(BaumVertex::update)
-    }
+//    private fun updateVerticesInNewWorkingSet(workingSet: Set<Int>) {
+//        workingSet
+//                .map(vertices::get)
+//                .forEach(BaumVertex::update)
+//    }
 
     private fun updateSinkVertex() {
         val sinkAddedExcess = sinkVertex.addedExcess.get()

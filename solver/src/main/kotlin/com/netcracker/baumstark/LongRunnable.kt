@@ -28,6 +28,7 @@ class LongRunnable(
                 break
             }
             val workingSet = subsetsList[runnableIndex]
+            updateVerticesInNewWorkingSet(workingSet)
             workingSet.forEach(this::discharge)
             middleBarrier.await()
             workingSet.forEach(this::update)
@@ -113,6 +114,12 @@ class LongRunnable(
         val localHeight = localHeights[currentVertexId] ?: throw IllegalStateException()
         currentVertex.updateWithHeight(localHeight)
         logger.debug(" - ${currentVertex.toDetailedString()}")
+    }
+
+    private fun updateVerticesInNewWorkingSet(workingSet: Set<Int>) {
+        workingSet
+                .map(vertices::get)
+                .forEach(BaumVertex::update)
     }
 
     private fun testAndSet(condition: AtomicBoolean) =
