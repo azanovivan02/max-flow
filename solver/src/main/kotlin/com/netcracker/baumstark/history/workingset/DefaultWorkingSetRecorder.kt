@@ -1,4 +1,4 @@
-package com.netcracker.baumstark.history
+package com.netcracker.baumstark.history.workingset
 
 import com.netcracker.baumstark.*
 import com.netcracker.util.customAssert

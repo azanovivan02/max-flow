@@ -1,7 +1,7 @@
 package com.netcracker.baumstark
 
-import com.netcracker.baumstark.history.DefaultWorkingSetRecorder
-import com.netcracker.baumstark.history.WorkingSetRecorder
+import com.netcracker.baumstark.history.workingset.DefaultWorkingSetRecorder
+import com.netcracker.baumstark.history.workingset.WorkingSetRecorder
 import com.netcracker.util.LogLevel
 import com.netcracker.util.Logger
 import com.netcracker.util.StandardOutputLogger
@@ -66,7 +66,7 @@ class BaumExecutor(
             subsetsList: MutableList<Set<Int>>,
             startBarrier: CyclicBarrier,
             middleBarrier: CyclicBarrier
-    ) = LongRunnable(runnableIndex,
+    ) = BaumstarkBaseRunnable(runnableIndex,
             solutionFound,
             subsetsList,
             startBarrier,

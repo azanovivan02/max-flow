@@ -2,8 +2,7 @@ package com.netcracker.bohong
 
 import com.netcracker.MaxFlowSolver
 import com.netcracker.OutputMode
-import com.netcracker.OutputMode.FLOW_GRAPH
-import com.netcracker.OutputMode.MAX_FLOW_VALUE
+import com.netcracker.OutputMode.*
 import com.netcracker.addMaxFlowPrefix
 import com.netcracker.util.DrawingMode
 import com.netcracker.util.MyGraph
@@ -25,6 +24,7 @@ class BohongSolver : MaxFlowSolver {
                     .toDotString(drawingMode)
                     .addMaxFlowPrefix(maxFlow)
             MAX_FLOW_VALUE -> maxFlow.toString()
+            ELEMENTARY_ACTIONS -> "Not supported"
         }
     }
 }

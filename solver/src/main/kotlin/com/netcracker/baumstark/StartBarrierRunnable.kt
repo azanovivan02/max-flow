@@ -1,6 +1,8 @@
 package com.netcracker.baumstark
 
-import com.netcracker.baumstark.history.WorkingSetRecorder
+import com.netcracker.baumstark.history.actions.ActionRecorder
+import com.netcracker.baumstark.history.actions.DummyActionRecorder
+import com.netcracker.baumstark.history.workingset.WorkingSetRecorder
 import com.netcracker.util.Logger
 import com.netcracker.util.splitIntoEvenParts
 import java.util.concurrent.atomic.AtomicBoolean
@@ -13,7 +15,8 @@ class StartBarrierRunnable(
         val graph: BaumGraph,
         val threadAmount: Int,
         val logger: Logger,
-        val workingSetRecorder: WorkingSetRecorder
+        val workingSetRecorder: WorkingSetRecorder,
+        var actionRecorder: ActionRecorder = DummyActionRecorder()
 ) : Runnable {
 
     val vertices = graph.vertices

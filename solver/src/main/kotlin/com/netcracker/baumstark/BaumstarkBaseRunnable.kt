@@ -1,5 +1,7 @@
 package com.netcracker.baumstark
 
+import com.netcracker.baumstark.history.actions.ActionRecorder
+import com.netcracker.baumstark.history.actions.DummyActionRecorder
 import com.netcracker.util.Logger
 import com.netcracker.util.customAssert
 import java.util.concurrent.CountDownLatch
@@ -7,7 +9,7 @@ import java.util.concurrent.CyclicBarrier
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.min
 
-class LongRunnable(
+class BaumstarkBaseRunnable(
         val runnableIndex: Int,
         val solutionFound: AtomicBoolean,
         val subsetsList: MutableList<Set<Int>>,
@@ -15,7 +17,8 @@ class LongRunnable(
         val middleBarrier: CyclicBarrier,
         val vertices: List<BaumVertex>,
         val sinkVertexId: Int,
-        var logger: Logger
+        var logger: Logger,
+        var actionRecorder: ActionRecorder = DummyActionRecorder()
 ) : Runnable {
 
     private val sourceVertexHeight = vertices.size.toLong()

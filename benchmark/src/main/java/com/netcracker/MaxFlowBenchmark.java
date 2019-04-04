@@ -2,7 +2,7 @@ package com.netcracker;
 
 import com.netcracker.baumstark.BaumExecutor;
 import com.netcracker.baumstark.BaumGraph;
-import com.netcracker.baumstark.history.DummyWorkingSetRecorder;
+import com.netcracker.baumstark.history.workingset.DummyWorkingSetRecorder;
 import com.netcracker.util.*;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;

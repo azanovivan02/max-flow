@@ -1,20 +1,13 @@
 package com.netcracker;
 
-import com.netcracker.baumstark.BaumExecutor;
-import com.netcracker.baumstark.BaumGraph;
-import com.netcracker.baumstark.history.DummyWorkingSetRecorder;
 import com.netcracker.bohong.LockFreeGraph;
-import com.netcracker.util.*;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
-import static com.netcracker.baumstark.BaumGraphCreationUtilsKt.createBaumGraph;
 import static com.netcracker.bohong.GraphCreationUtilsKt.createLockFreeGraph;
 import static com.netcracker.util.IoUtilsKt.readGraphFromDimacsFile;
-import static com.netcracker.util.LogLevel.DEBUG;
-import static com.netcracker.util.Logger.ThreadIdOption.ORIGINAL;
 import static java.lang.Integer.parseInt;
 import static java.lang.System.getProperty;
 

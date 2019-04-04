@@ -2,8 +2,7 @@ package com.netcracker.baumstark
 
 import com.netcracker.MaxFlowSolver
 import com.netcracker.OutputMode
-import com.netcracker.OutputMode.FLOW_GRAPH
-import com.netcracker.OutputMode.MAX_FLOW_VALUE
+import com.netcracker.OutputMode.*
 import com.netcracker.addMaxFlowPrefix
 import com.netcracker.util.*
 
@@ -29,6 +28,7 @@ class BaumstarkSolver(
                     .createRecord().toDotString(drawingMode)
                     .addMaxFlowPrefix(maxFlow)
             MAX_FLOW_VALUE -> maxFlow.toString()
+            ELEMENTARY_ACTIONS -> "Not supported"
         }
     }
 }

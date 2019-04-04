@@ -45,7 +45,11 @@ data class Arguments(
         val threadAmount: Int
 )
 
-enum class OutputMode { FLOW_GRAPH, MAX_FLOW_VALUE }
+enum class OutputMode {
+    FLOW_GRAPH,
+    MAX_FLOW_VALUE,
+    ELEMENTARY_ACTIONS
+}
 
 
 
