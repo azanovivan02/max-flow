@@ -1,8 +1,16 @@
 package com.netcracker.baumstark.history.actions
 
+import java.util.concurrent.atomic.AtomicLong
+
 class DefaultActionRecorder : ActionRecorder {
 
-    override fun recordAction(runnableIndex: Int, type: ActionRecorder.ActionType) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    val totalActionAmount = AtomicLong(0)
+
+    override fun recordAction(runnableIndex: Int, action: ActionRecorder.ActionType) {
+        totalActionAmount.incrementAndGet()
+    }
+
+    override fun recordActions(runnableIndex: Int, actions: List<ActionRecorder.ActionType>) {
+        totalActionAmount.addAndGet(actions.size.toLong())
     }
 }

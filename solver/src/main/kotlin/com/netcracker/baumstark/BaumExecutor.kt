@@ -1,5 +1,8 @@
 package com.netcracker.baumstark
 
+import com.netcracker.baumstark.history.actions.ActionRecorderAnalyzer
+import com.netcracker.baumstark.history.actions.DefaultActionRecorder
+import com.netcracker.baumstark.history.actions.DefaultActionRecorderAnalyzer
 import com.netcracker.baumstark.history.workingset.DefaultWorkingSetRecorder
 import com.netcracker.baumstark.history.workingset.WorkingSetRecorder
 import com.netcracker.util.LogLevel
@@ -8,6 +11,7 @@ import com.netcracker.util.StandardOutputLogger
 import java.util.concurrent.CyclicBarrier
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 
 class BaumExecutor(
         val graph: BaumGraph,
@@ -16,7 +20,10 @@ class BaumExecutor(
         var enablePreflowValidation: Boolean = false,
         var workingSetRecorder: WorkingSetRecorder = DefaultWorkingSetRecorder(graph)
 ) {
-    fun findMaxFlowValue(skipInit: Boolean = false): Long {
+    fun findMaxFlowValue(
+            skipInit: Boolean = false,
+            recorderAnalyzer: ActionRecorderAnalyzer = DefaultActionRecorderAnalyzer()
+    ): Long {
         if (!skipInit) {
             graph.init()
         }
@@ -27,12 +34,20 @@ class BaumExecutor(
             val solutionFound = AtomicBoolean(false)
             val subsetsList = MutableList<Set<Int>>(threadAmount) { setOf() }
 
-            val startBarrier = createStartBarrier(iterationNumber, solutionFound, subsetsList)
+            val startBarrierRunnable = createStartBarrierRunnable(
+                    iterationNumber,
+                    solutionFound,
+                    subsetsList
+            )
+            val startBarrier = CyclicBarrier(threadAmount, startBarrierRunnable)
             val middleBarrier = CyclicBarrier(threadAmount)
 
             val longRunnables = createLongRunnables(solutionFound, subsetsList, startBarrier, middleBarrier)
 
             executor.executeRunnables(longRunnables)
+
+            val actionRecorders = longRunnables.map { it.actionRecorder } + listOf(startBarrierRunnable.actionRecorder)
+            recorderAnalyzer.analyze(actionRecorders)
         } finally {
             executor.shutdown()
             workingSetRecorder.save()
@@ -73,14 +88,11 @@ class BaumExecutor(
             middleBarrier,
             graph.vertices,
             graph.sinkVertexId,
-            logger
+            logger,
+            actionRecorder = DefaultActionRecorder()
     )
 
-    private fun createStartBarrier(
-            iterationNumber: AtomicInteger,
-            solutionFound: AtomicBoolean,
-            subsetsList: MutableList<Set<Int>>
-    ): CyclicBarrier {
+    private fun createStartBarrierRunnable(iterationNumber: AtomicInteger, solutionFound: AtomicBoolean, subsetsList: MutableList<Set<Int>>): StartBarrierRunnable {
         val startBarrierRunnable = StartBarrierRunnable(
                 iterationNumber,
                 solutionFound,
@@ -88,9 +100,10 @@ class BaumExecutor(
                 graph,
                 threadAmount,
                 logger,
-                workingSetRecorder
+                workingSetRecorder,
+                actionRecorder = DefaultActionRecorder()
         )
-        return CyclicBarrier(threadAmount, startBarrierRunnable)
+        return startBarrierRunnable
     }
 
     override fun toString() = graph.toString()

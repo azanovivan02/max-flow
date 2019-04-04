@@ -1,5 +1,6 @@
 package com.netcracker.baumstark
 
+import com.netcracker.baumstark.history.actions.DefaultActionRecorderAnalyzer
 import com.netcracker.baumstark.history.workingset.DummyWorkingSetRecorder
 import com.netcracker.util.readGraphFromDimacsFile
 
@@ -14,8 +15,10 @@ fun main(args: Array<String>) {
     val baumGraph = createBaumGraph(originalGraph)
     val executor = BaumExecutor(baumGraph, workingSetRecorder = DummyWorkingSetRecorder())
     try {
-        val maxFlowValue = executor.findMaxFlowValue()
-        println(maxFlowValue)
+        val analyzer = DefaultActionRecorderAnalyzer()
+        val maxFlowValue = executor.findMaxFlowValue(recorderAnalyzer = analyzer)
+        println("Max flow: $maxFlowValue")
+        println("Total actions: ${analyzer.totalActionAmount}")
 //        println(baumGraph.createRecord().toDotString(DrawingMode.SIMPLE))
     } catch (e: Exception) {
         println("Exception occured")

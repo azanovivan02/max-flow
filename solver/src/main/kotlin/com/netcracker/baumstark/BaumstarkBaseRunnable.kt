@@ -1,6 +1,7 @@
 package com.netcracker.baumstark
 
 import com.netcracker.baumstark.history.actions.ActionRecorder
+import com.netcracker.baumstark.history.actions.ActionRecorder.ActionType.*
 import com.netcracker.baumstark.history.actions.DummyActionRecorder
 import com.netcracker.util.Logger
 import com.netcracker.util.customAssert
@@ -73,6 +74,7 @@ class BaumstarkBaseRunnable(
                 if (edgeIsAdmissable && edge.remainingCapacity > 0) {
                     val delta = min(edge.remainingCapacity, localExcess)
                     logger.debug { "- Pushing $delta from ${edge.startVertexId} to ${edge.endVertexId}" }
+
                     edge.flow.getAndAdd(delta)
 
                     val reverseEdge = edge.getReverseEdge(vertices)
@@ -85,10 +87,13 @@ class BaumstarkBaseRunnable(
                     if (endVertex.id != sinkVertexId && testAndSet(endVertex.isDiscovered)) {
                         currentVertex.discoveredVertices += endVertex.id
                     }
+
+                    actionRecorder.recordAction(runnableIndex, PUSH)
                 }
 
                 if (edge.remainingCapacity > 0 && endVertexHeight >= currentVertexHeight) {
                     newHeight = min(newHeight, endVertexHeight + 1)
+                    actionRecorder.recordAction(runnableIndex, RELABEL)
                 }
             }
 
