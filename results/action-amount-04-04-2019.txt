@@ -1,0 +1,40 @@
+Rows: 20
+Width: 20
+Using default generated file path
+-bash-4.1$ ./launch-actions.sh 1
+Threads: 1
+337843
+-bash-4.1$ ./launch-actions.sh 2
+Threads: 2
+386980
+-bash-4.1$ ./launch-actions.sh 4
+Threads: 4
+401677
+-bash-4.1$ ./generate.sh 30 30
+=== Generate ===
+Rows: 30
+Width: 30
+Using default generated file path
+-bash-4.1$ ./launch-actions.sh 1
+Threads: 1
+363709
+-bash-4.1$ ./launch-actions.sh 2
+Threads: 2
+376749
+-bash-4.1$ ./launch-actions.sh 4
+Threads: 4
+353781
+-bash-4.1$ ./generate.sh 50 50
+=== Generate ===
+Rows: 50
+Width: 50
+Using default generated file path
+-bash-4.1$ ./launch-actions.sh 1
+Threads: 1
+20801463
+-bash-4.1$ ./launch-actions.sh 2
+Threads: 2
+24041133
+-bash-4.1$ ./launch-actions.sh 4
+Threads: 4
+23548112
