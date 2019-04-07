@@ -150,3 +150,33 @@ Iteration   2: Do TearDown
 Iteration   1: 52.757 s/op
 Iteration   2: Do TearDown
 50.261 s/op
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+==================================================================
+100 by 10 (wide), SingleThreaded
+
+# Warmup Iteration   1: 0.008 s/op
+# Warmup Iteration   2: 0.008 s/op
+Iteration   1: 0.008 s/op
+Iteration   2: Do TearDown
+0.009 s/op
+
+==================================================================
+500 by 10 (wide), SingleThreaded
+
+# Warmup Iteration   1: 0.061 s/op
+# Warmup Iteration   2: 0.058 s/op
+Iteration   1: 0.059 s/op
+Iteration   2: Do TearDown
+0.060 s/op
+
+==================================================================
+1000 by 10 (wide), SingleThreaded
+
+# Warmup Iteration   1: 0.147 s/op
+# Warmup Iteration   2: 0.136 s/op
+Iteration   1: 0.137 s/op
+Iteration   2: Do TearDown
+0.138 s/op
