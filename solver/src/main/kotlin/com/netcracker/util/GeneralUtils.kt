@@ -32,3 +32,7 @@ fun <T> List<T>.splitIntoEvenParts(maxPartsAmount: Int): List<List<T>> {
 //    println("Split $size elements into parts: [$partSizesString]")
     return parts
 }
+
+fun <E> MutableList<E>.removeLast() {
+    removeAt(size - 1)
+}

@@ -1,8 +1,21 @@
-package com.netcracker.singlethreaded
+package com.netcracker.simple
 
-class SingleThreadPushRelabel : MaxFlowSolver {
+import com.netcracker.MaxFlowSolver
+import com.netcracker.OutputMode
+import com.netcracker.util.DrawingMode
+import com.netcracker.util.MyGraph
 
-    override fun findMaxFlow(graph: MyGraph): MyGraph {
+class SimpleSolver : MaxFlowSolver {
+
+    override fun solve(
+            originalGraph: MyGraph,
+            outputMode: OutputMode,
+            drawingMode: DrawingMode): String {
+        val (maxFlow, graph) = findMaxFlow(originalGraph)
+        return maxFlow.toString()
+    }
+
+    private fun findMaxFlow(graph: MyGraph): Pair<Int, MyGraph> {
         val sourceVertex = "1"
         val sinkVertex = graph
                 .vertexSet()
@@ -10,7 +23,7 @@ class SingleThreadPushRelabel : MaxFlowSolver {
                 .toString()
 
         val verticesAmount = graph.getVerticesAmount()
-        val solver = PushRelabel(verticesAmount)
+        val solver = SimpleExecutor(verticesAmount)
         for (edge in graph.edgeSet()) {
             val from = graph.getEdgeSource(edge).toInt()
             val to = graph.getEdgeTarget(edge).toInt()
@@ -22,7 +35,6 @@ class SingleThreadPushRelabel : MaxFlowSolver {
             )
         }
         val maxFlow = solver.getMaxFlow(1, verticesAmount)
-        println("Max flow: $maxFlow")
-        return graph
+        return Pair(maxFlow, graph)
     }
 }

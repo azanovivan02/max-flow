@@ -1,29 +1,37 @@
-package com.netcracker.singlethreaded
+package com.netcracker.simple
 
+import com.netcracker.util.removeLast
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
-data class Edge(
-        val from: Int,
-        val to: Int,
-        var index: Int,
-        val capacity: Int,
-        var flow: Int
-)
+class SimpleExecutor(val verticesAmount: Int) {
 
-class PushRelabel(val verticesAmount: Int) {
+    val adjacencyLists: List<MutableList<SimpleEdge>> = List(verticesAmount) { mutableListOf<SimpleEdge>() }
+    var B: List<MutableList<Int>> = List(verticesAmount) { mutableListOf<Int>() }
 
-    val adjacencyLists: List<MutableList<Edge>> = List(verticesAmount) { mutableListOf<Edge>() }
-    val B: List<MutableList<Int>> = List(verticesAmount) { mutableListOf<Int>() }
-
-    val excesses: MutableList<Int> = MutableList(verticesAmount) { 0 }
-    val distanceLabels: MutableList<Int> = MutableList(verticesAmount) { 0 }
-    val count: MutableList<Int> = MutableList(2 * verticesAmount) { 0 }
-    val active: MutableList<Boolean> = MutableList(verticesAmount) { false }
-    val queue: Queue<Int> = LinkedList<Int>()
+    var excesses: MutableList<Int> = MutableList(verticesAmount) { 0 }
+    var distanceLabels: MutableList<Int> = MutableList(verticesAmount) { 0 }
+    var count: MutableList<Int> = MutableList(2 * verticesAmount) { 0 }
+    var active: MutableList<Boolean> = MutableList(verticesAmount) { false }
+    var queue: Queue<Int> = LinkedList<Int>()
 
     var b: Int = 0
+
+    fun reset() {
+        for(list in adjacencyLists) {
+            for (edge in list) {
+                edge.reset()
+            }
+        }
+        B = List(verticesAmount) { mutableListOf<Int>() }
+        excesses = MutableList(verticesAmount) { 0 }
+        distanceLabels = MutableList(verticesAmount) { 0 }
+        count = MutableList(2 * verticesAmount) { 0 }
+        active = MutableList(verticesAmount) { false }
+        queue = LinkedList<Int>()
+        b = 0
+    }
 
     fun addEdge(
             rawFrom: Int,
@@ -32,7 +40,7 @@ class PushRelabel(val verticesAmount: Int) {
     ) {
         val from = rawFrom - 1
         val to = rawTo - 1
-        adjacencyLists[from] += Edge(
+        adjacencyLists[from] += SimpleEdge(
                 from = from,
                 to = to,
                 index = adjacencyLists[to].size,
@@ -42,7 +50,7 @@ class PushRelabel(val verticesAmount: Int) {
         if (from == to) {
             adjacencyLists[from].last().index++
         }
-        adjacencyLists[to] += Edge(
+        adjacencyLists[to] += SimpleEdge(
                 from = to,
                 to = from,
                 index = adjacencyLists[from].size - 1,
@@ -67,7 +75,6 @@ class PushRelabel(val verticesAmount: Int) {
         active[sink] = true
 
         while (b >= 0) {
-            println("b = $b")
             if (!B[b].isEmpty()) {
                 val v = B[b].last()
                 B[b].removeLast()
@@ -78,7 +85,6 @@ class PushRelabel(val verticesAmount: Int) {
             }
         }
 
-        println("Excesses: $excesses")
         return excesses[sink]
     }
 
@@ -90,7 +96,7 @@ class PushRelabel(val verticesAmount: Int) {
         }
     }
 
-    private fun push(edge: Edge) {
+    private fun push(edge: SimpleEdge) {
         val amount = min(excesses[edge.from], edge.capacity - edge.flow)
         if (distanceLabels[edge.from] == distanceLabels[edge.to] + 1 && amount > 0) {
             edge.flow += amount
@@ -143,8 +149,4 @@ class PushRelabel(val verticesAmount: Int) {
     }
 
 //    T GetMinCut (int s, int t, vector <int> &cut)
-}
-
-fun <E> MutableList<E>.removeLast() {
-    removeAt(size - 1)
 }

@@ -1,5 +1,6 @@
-package com.netcracker.singlethreaded
+package com.netcracker.simple
 
+import com.netcracker.util.MyGraph
 import org.jgrapht.graph.DefaultDirectedWeightedGraph
 import org.jgrapht.graph.DefaultWeightedEdge
 import org.jgrapht.io.*
@@ -19,8 +20,8 @@ fun readGraphFromDimacsFile(filePath: String): MyGraph {
 }
 
 fun MyGraph.toDotString(): String {
-    val vertexIdProvider = ComponentNameProvider<String> { component -> component }
-    val vertexLabelProvider = ComponentNameProvider<String> { component -> component }
+    val vertexIdProvider = ComponentNameProvider<String> { component: String -> component }
+    val vertexLabelProvider = ComponentNameProvider<String> { component: String -> component }
     val edgeLabelProvider = ComponentNameProvider<DefaultWeightedEdge> { edge -> "(${getEdgeWeight(edge)})" }
     val exporter = DOTExporter<String, DefaultWeightedEdge>(vertexIdProvider, vertexLabelProvider, edgeLabelProvider)
     val writer = StringWriter()

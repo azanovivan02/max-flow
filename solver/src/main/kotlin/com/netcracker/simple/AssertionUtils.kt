@@ -1,4 +1,4 @@
-package com.netcracker.singlethreaded
+package com.netcracker.simple
 
 fun customAssert(
         condition: Boolean,

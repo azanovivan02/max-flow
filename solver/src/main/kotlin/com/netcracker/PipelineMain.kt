@@ -2,6 +2,7 @@ package com.netcracker
 
 import com.netcracker.OutputMode.*
 import com.netcracker.baumstark.BaumstarkSolver
+import com.netcracker.simple.SimpleSolver
 import com.netcracker.util.*
 import com.netcracker.util.DrawingMode.*
 import java.lang.IllegalArgumentException
@@ -11,10 +12,11 @@ fun main(args: Array<String>) {
     val originalGraph = readGraphFromDimacsString(dimacsGraphString)
     val (outputMode, drawingMode, threadAmount) = parseCommandLineArguments(args)
 
-    val solver = BaumstarkSolver(
-            logger = StandardOutputLogger(false, LogLevel.DEBUG),
-            threadAmount = threadAmount
-    )
+//    val solver = BaumstarkSolver(
+//            logger = StandardOutputLogger(false, LogLevel.DEBUG),
+//            threadAmount = threadAmount
+//    )
+    val solver = SimpleSolver()
 
     val output = solver.solve(originalGraph, outputMode, drawingMode)
 

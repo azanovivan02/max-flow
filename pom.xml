@@ -13,6 +13,7 @@
         <module>solver</module>
         <module>benchmark</module>
         <module>benchmark-bohong</module>
+        <module>benchmark-simple</module>
     </modules>
 
 </project>

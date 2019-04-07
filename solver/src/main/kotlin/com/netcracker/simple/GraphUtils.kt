@@ -1,4 +1,4 @@
-package com.netcracker.singlethreaded
+package com.netcracker.simple
 
 import org.jgrapht.Graph
 
