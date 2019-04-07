@@ -1,0 +1,48 @@
+==================================================================
+
+c 100 Rows, 100 columns, capacities in range [0, 100]
+
+==== 1 thread 
+
+# Run progress: 0.00% complete, ETA 00:01:40
+# Fork: 1 of 1
+# Warmup Iteration   1: 83.022 s/op
+# Warmup Iteration   2: 85.194 s/op
+# Warmup Iteration   3: 84.965 s/op
+# Warmup Iteration   4: 85.425 s/op
+# Warmup Iteration   5: 84.913 s/op
+Iteration   1: 84.776 s/op
+Iteration   2: 85.063 s/op
+Iteration   3: 84.735 s/op
+Iteration   4: 84.973 s/op
+Iteration   5: Do TearDown
+84.908 s/op
+
+==== 4 thread
+
+# Run progress: 0.00% complete, ETA 00:01:40
+# Fork: 1 of 1
+# Warmup Iteration   1: 90.489 s/op
+# Warmup Iteration   2: 91.806 s/op
+# Warmup Iteration   3: 90.531 s/op
+# Warmup Iteration   4: 93.237 s/op
+# Warmup Iteration   5: 91.104 s/op
+Iteration   1: 89.967 s/op
+Iteration   2: 91.481 s/op
+Iteration   3: 90.927 s/op
+
+==== 8 thread
+
+# Run progress: 0.00% complete, ETA 00:01:40
+# Fork: 1 of 1
+# Warmup Iteration   1: 131.000 s/op
+# Warmup Iteration   2: 124.805 s/op
+# Warmup Iteration   3: 120.828 s/op
+# Warmup Iteration   4: 114.329 s/op
+# Warmup Iteration   5: 112.864 s/op
+Iteration   1: 115.493 s/op
+Iteration   2: 118.667 s/op
+
+==================================================================
+
+

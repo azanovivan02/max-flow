@@ -47,8 +47,8 @@ public class MaxFlowBenchmarkBohong {
         }
     }
 
-    @Measurement(iterations = 5)
-    @Warmup(iterations = 5)
+    @Measurement(iterations = 2)
+    @Warmup(iterations = 2)
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     public void testMethod(Blackhole blackhole, MyState state) {

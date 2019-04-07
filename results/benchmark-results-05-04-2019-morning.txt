@@ -1,0 +1,152 @@
+==================================================================
+
+100 by 10 (wide), Baumstark
+=== 1 thread
+# Warmup Iteration   1: 1.330 s/op
+# Warmup Iteration   2: 1.186 s/op
+Iteration   1: 1.181 s/op
+
+=== 4 thread
+# Warmup Iteration   1: 2.550 s/op
+# Warmup Iteration   2: 2.303 s/op
+Iteration   1: 2.163 s/op
+
+=== 8 thread
+# Fork: 1 of 1
+# Warmup Iteration   1: 3.799 s/op
+# Warmup Iteration   2: 2.972 s/op
+Iteration   1: 3.504 s/op
+Iteration   2: Do TearDown
+2.853 s/op
+
+=== 16 thread
+# Warmup Iteration   1: 6.503 s/op
+# Warmup Iteration   2: 8.311 s/op
+Iteration   1: 6.533 s/op
+Iteration   2: Do TearDown
+5.075 s/op
+
+==================================================================
+
+500 by 10 (wide), Baumstark
+
+=== 1 thread
+# Warmup Iteration   1: 48.847 s/op
+# Warmup Iteration   2: 47.148 s/op
+# Warmup Iteration   3: 47.324 s/op
+# Warmup Iteration   4: 47.715 s/op
+
+=== 4 thread
+# Warmup Iteration   1: 44.915 s/op
+# Warmup Iteration   2: 44.845 s/op
+Iteration   1: 41.941 s/op
+
+=== 8 thread
+# Warmup Iteration   1: 60.385 s/op
+# Warmup Iteration   2: 57.674 s/op
+Iteration   1: 63.548 s/op
+
+==================================================================
+
+1000 by 10 (wide, Baumstark)
+
+=== 1 thread
+# Warmup Iteration   1: 189.239 s/op
+# Warmup Iteration   2: 189.475 s/op
+Iteration   1: 188.567 s/op
+
+=== 4 threads
+# Warmup Iteration   1: 192.199 s/op
+# Warmup Iteration   2: 162.471 s/op
+Iteration   1: 169.448 s/op
+Iteration   2: Do TearDown
+155.050 s/op
+
+=== 8 threads
+# Warmup Iteration   1: 204.364 s/op
+# Warmup Iteration   2: 195.725 s/op
+Iteration   1: 212.317 s/op
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+==================================================================
+
+100 by 10 (wide), Bohong
+=== 1 thread
+# Warmup Iteration   1: 0.337 s/op
+# Warmup Iteration   2: 0.314 s/op
+Iteration   1: 0.315 s/op
+Iteration   2: Do TearDown
+0.318 s/op
+
+=== 4 thread
+# Fork: 1 of 1
+# Warmup Iteration   1: 0.355 s/op
+# Warmup Iteration   2: 0.355 s/op
+Iteration   1: 0.355 s/op
+Iteration   2: Do TearDown
+0.353 s/op
+
+=== 8 thread
+# Warmup Iteration   1: 0.555 s/op
+# Warmup Iteration   2: 0.493 s/op
+Iteration   1: 0.499 s/op
+Iteration   2: Do TearDown
+0.501 s/op
+
+==================================================================
+
+500 by 10 (wide), Bohong
+=== 1 thread
+# Warmup Iteration   1: 9.074 s/op
+# Warmup Iteration   2: 7.591 s/op
+Iteration   1: 7.587 s/op
+Iteration   2: Do TearDown
+7.689 s/op
+
+=== 4 thread
+# Warmup Iteration   1: 4.122 s/op
+# Warmup Iteration   2: 3.939 s/op
+Iteration   1: 4.038 s/op
+Iteration   2: Do TearDown
+4.071 s/op
+
+=== 8 thread
+# Warmup Iteration   1: 7.476 s/op
+# Warmup Iteration   2: 6.518 s/op
+Iteration   1: 7.071 s/op
+Iteration   2: Do TearDown
+6.426 s/op
+
+==================================================================
+
+1000 by 10 (wide), Bohong
+=== 1 thread
+# Fork: 1 of 1
+# Warmup Iteration   1: 69.564 s/op
+# Warmup Iteration   2: 67.202 s/op
+Iteration   1: 68.498 s/op
+Iteration   2: Do TearDown
+68.987 s/op
+
+=== 2 thread
+# Warmup Iteration   1: 39.211 s/op
+# Warmup Iteration   2: 38.039 s/op
+Iteration   1: 43.319 s/op
+Iteration   2: Do TearDown
+42.847 s/op
+
+=== 4 thread
+# Warmup Iteration   1: 32.120 s/op
+# Warmup Iteration   2: 34.927 s/op
+Iteration   1: 36.438 s/op
+Iteration   2: Do TearDown
+35.273 s/op
+
+=== 8 thread
+# Warmup Iteration   1: 49.161 s/op
+# Warmup Iteration   2: 47.776 s/op
+Iteration   1: 52.757 s/op
+Iteration   2: Do TearDown
+50.261 s/op
